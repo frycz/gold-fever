@@ -13,12 +13,18 @@ type Item = {
   y: number;
 };
 
+type Enemy = {
+  x: number;
+  y: number;
+};
+
 type Action = "up" | "down" | "left" | "right";
 
 type State = {
   points: number;
   player: Player;
   items: Array<Item>;
+  enemies: Array<Enemy>;
 };
 
 const gridWidth = 10;
@@ -33,9 +39,16 @@ const initialState: State = {
     { x: 4, y: 5 },
     { x: 6, y: 3 },
   ],
+  enemies: [
+    { x: 0, y: 9 },
+    { x: 9, y: 0 },
+    { x: 9, y: 9 },
+  ],
 };
 
 const init = () => initialState;
+
+
 
 const reducer = (state: State, action: Action): State => {
   let newX = 0;
@@ -73,6 +86,18 @@ const reducer = (state: State, action: Action): State => {
             : state.items),
           ...newItem,
         ],
+        enemies: state.enemies.map((enemy) => {
+          const newEnemyX =
+            enemy.x +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          const newEnemyY =
+            enemy.y +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          return {
+            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
+            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
+          };
+        }),
       };
     case "down":
       newX = state.player.x;
@@ -104,6 +129,18 @@ const reducer = (state: State, action: Action): State => {
             : state.items),
           ...newItem,
         ],
+        enemies: state.enemies.map((enemy) => {
+          const newEnemyX =
+            enemy.x +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          const newEnemyY =
+            enemy.y +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          return {
+            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
+            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
+          };
+        }),
       };
     case "left":
       newX = state.player.x > 0 ? state.player.x - 1 : state.player.x;
@@ -134,6 +171,18 @@ const reducer = (state: State, action: Action): State => {
             : state.items),
           ...newItem,
         ],
+        enemies: state.enemies.map((enemy) => {
+          const newEnemyX =
+            enemy.x +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          const newEnemyY =
+            enemy.y +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          return {
+            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
+            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
+          };
+        }),
       };
     case "right":
       newX =
@@ -165,6 +214,18 @@ const reducer = (state: State, action: Action): State => {
             : state.items),
           ...newItem,
         ],
+        enemies: state.enemies.map((enemy) => {
+          const newEnemyX =
+            enemy.x +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          const newEnemyY =
+            enemy.y +
+            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
+          return {
+            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
+            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
+          };
+        }),
       };
     default:
       return { ...state };
@@ -199,15 +260,9 @@ function App() {
     <div className="grid-wrapper">
       <div className="grid-container">
         <div className="side">
-          <div className="game-title">
-            Gold Fever
-          </div>
-          <div className="game-description">
-            Collect all the gold
-          </div>
-          <div className="game-instruction">
-            Use arrow keys to move
-          </div>
+          <div className="game-title">Gold Fever</div>
+          <div className="game-description">Collect all the gold</div>
+          <div className="game-instruction">Use arrow keys to move</div>
         </div>
         <Grid
           width={gridWidth}
@@ -215,6 +270,7 @@ function App() {
           playerX={state.player.x}
           playerY={state.player.y}
           items={state.items}
+          enemies={state.enemies}
         />
         <div className="side">
           <div className="score">

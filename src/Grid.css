@@ -17,6 +17,10 @@
   background-color: #eac868;
 }
 
+.grid-field.enemy-field {
+  background-color: brown;
+}
+
 .grid-field.player-field {
   background-color: #2d84ce;
   border-color: #2779bf;
