@@ -16,11 +16,12 @@ export const Grid = ({ width, height, playerX, playerY, items, enemies }: Props)
     {Array(height)
       .fill(null)
       .map((_, y) => (
-        <div style={{ display: "flex" }}>
+        <div key={y} style={{ display: "flex" }}>
           {Array(width)
             .fill(null)
             .map((_, x) => (
               <div
+                key={`${x}-${y}`}
                 className={`grid-field${
                   playerX === x && playerY === y ? " player-field" : ""
                 }${

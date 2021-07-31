@@ -1,4 +1,5 @@
 import React from "react";
+import PF from "pathfinding";
 import { Grid } from "./Grid";
 
 import "./App.css";
@@ -30,6 +31,8 @@ type State = {
 const gridWidth = 10;
 const gridHeight = 10;
 
+var pathfinder = new PF.AStarFinder();
+
 const initialState: State = {
   points: 0,
   player: { x: 0, y: 0 },
@@ -40,196 +43,129 @@ const initialState: State = {
     { x: 6, y: 3 },
   ],
   enemies: [
-    { x: 0, y: 9 },
-    { x: 9, y: 0 },
+    // { x: 0, y: 9 },
+    // { x: 9, y: 0 },
     { x: 9, y: 9 },
   ],
 };
 
 const init = () => initialState;
 
-
-
-const reducer = (state: State, action: Action): State => {
-  let newX = 0;
-  let newY = 0;
+const movePlayer = (state: State, action: Action): State => {
+  let newX = state.player.x;
+  let newY = state.player.y;
   let itemIndex = -1;
   let newItem: Array<Item> = [];
 
-  switch (action) {
-    case "up":
-      newX = state.player.x;
-      newY = state.player.y > 0 ? state.player.y - 1 : state.player.y;
-      itemIndex = state.items.findIndex(
-        (item) => item.x === newX && item.y === newY
-      );
-      newItem =
-        itemIndex !== -1
-          ? [
-              {
-                x: Math.floor(gridWidth * Math.random()),
-                y: Math.floor(gridHeight * Math.random()),
-              },
-            ]
-          : [];
-
-      return {
-        ...state,
-        player: {
-          x: newX,
-          y: newY,
-        },
-        points: itemIndex !== -1 ? state.points + 1 : state.points,
-        items: [
-          ...(itemIndex !== -1
-            ? state.items.filter((_, index) => index !== itemIndex)
-            : state.items),
-          ...newItem,
-        ],
-        enemies: state.enemies.map((enemy) => {
-          const newEnemyX =
-            enemy.x +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          const newEnemyY =
-            enemy.y +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          return {
-            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
-            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
-          };
-        }),
-      };
-    case "down":
-      newX = state.player.x;
-      newY =
-        state.player.y < gridHeight - 1 ? state.player.y + 1 : state.player.y;
-      itemIndex = state.items.findIndex(
-        (item) => item.x === newX && item.y === newY
-      );
-      newItem =
-        itemIndex !== -1
-          ? [
-              {
-                x: Math.floor(gridWidth * Math.random()),
-                y: Math.floor(gridHeight * Math.random()),
-              },
-            ]
-          : [];
-
-      return {
-        ...state,
-        player: {
-          x: newX,
-          y: newY,
-        },
-        points: itemIndex !== -1 ? state.points + 1 : state.points,
-        items: [
-          ...(itemIndex !== -1
-            ? state.items.filter((_, index) => index !== itemIndex)
-            : state.items),
-          ...newItem,
-        ],
-        enemies: state.enemies.map((enemy) => {
-          const newEnemyX =
-            enemy.x +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          const newEnemyY =
-            enemy.y +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          return {
-            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
-            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
-          };
-        }),
-      };
-    case "left":
-      newX = state.player.x > 0 ? state.player.x - 1 : state.player.x;
-      newY = state.player.y;
-      itemIndex = state.items.findIndex(
-        (item) => item.x === newX && item.y === newY
-      );
-      newItem =
-        itemIndex !== -1
-          ? [
-              {
-                x: Math.floor(gridWidth * Math.random()),
-                y: Math.floor(gridHeight * Math.random()),
-              },
-            ]
-          : [];
-
-      return {
-        ...state,
-        player: {
-          x: newX,
-          y: newY,
-        },
-        points: itemIndex !== -1 ? state.points + 1 : state.points,
-        items: [
-          ...(itemIndex !== -1
-            ? state.items.filter((_, index) => index !== itemIndex)
-            : state.items),
-          ...newItem,
-        ],
-        enemies: state.enemies.map((enemy) => {
-          const newEnemyX =
-            enemy.x +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          const newEnemyY =
-            enemy.y +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          return {
-            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
-            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
-          };
-        }),
-      };
-    case "right":
-      newX =
-        state.player.x < gridWidth - 1 ? state.player.x + 1 : state.player.x;
-      newY = state.player.y;
-      itemIndex = state.items.findIndex(
-        (item) => item.x === newX && item.y === newY
-      );
-      newItem =
-        itemIndex !== -1
-          ? [
-              {
-                x: Math.floor(gridWidth * Math.random()),
-                y: Math.floor(gridHeight * Math.random()),
-              },
-            ]
-          : [];
-
-      return {
-        ...state,
-        player: {
-          x: newX,
-          y: newY,
-        },
-        points: itemIndex !== -1 ? state.points + 1 : state.points,
-        items: [
-          ...(itemIndex !== -1
-            ? state.items.filter((_, index) => index !== itemIndex)
-            : state.items),
-          ...newItem,
-        ],
-        enemies: state.enemies.map((enemy) => {
-          const newEnemyX =
-            enemy.x +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          const newEnemyY =
-            enemy.y +
-            (Math.random() > 0.5 ? 1 : -1) * (Math.random() > 0.5 ? 1 : 0);
-          return {
-            x: newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x,
-            y: newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y,
-          };
-        }),
-      };
-    default:
-      return { ...state };
+  if (action === "up") {
+    newX = state.player.x;
+    newY = state.player.y > 0 ? state.player.y - 1 : state.player.y;
   }
+  if (action === "down") {
+    newX = state.player.x;
+    newY =
+      state.player.y < gridHeight - 1 ? state.player.y + 1 : state.player.y;
+  }
+  if (action === "left") {
+    newX = state.player.x > 0 ? state.player.x - 1 : state.player.x;
+    newY = state.player.y;
+  }
+  if (action === "right") {
+    newX = state.player.x < gridWidth - 1 ? state.player.x + 1 : state.player.x;
+    newY = state.player.y;
+  }
+
+  itemIndex = state.items.findIndex(
+    (item) => item.x === newX && item.y === newY
+  );
+  newItem =
+    itemIndex !== -1
+      ? [
+          {
+            x: Math.floor(gridWidth * Math.random()),
+            y: Math.floor(gridHeight * Math.random()),
+          },
+        ]
+      : [];
+
+  return {
+    ...state,
+    player: {
+      x: newX,
+      y: newY,
+    },
+    points: itemIndex !== -1 ? state.points + 1 : state.points,
+    items: [
+      ...(itemIndex !== -1
+        ? state.items.filter((_, index) => index !== itemIndex)
+        : state.items),
+      ...newItem,
+    ],
+  };
+};
+
+const moveEnemy = (
+  state: State,
+  enemyIndex: number,
+  pathfinder: PF.AStarFinder
+): State => {
+  const enemy = { ...state.enemies[enemyIndex] };
+  const grid = new PF.Grid(gridWidth, gridHeight);
+
+  grid.setWalkableAt(state.player.x, state.player.y, false);
+  state.enemies.forEach((_, index) => {
+    if (index !== enemyIndex) {
+      grid.setWalkableAt(state.enemies[index].x, state.enemies[index].y, false);
+    }
+  });
+
+  const paths = state.items
+    .map((item) =>
+      pathfinder.findPath(enemy.x, enemy.y, item.x, item.y, grid.clone())
+    )
+    .sort((pathA, pathB) => pathA.length - pathB.length);
+
+  const [newEnemyX, newEnemyY] = paths[0][1] ? paths[0][1] : [enemy.x, enemy.y];
+
+  enemy.x = newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x;
+  enemy.y = newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y;
+
+  const itemIndex = state.items.findIndex(
+    (item) => item.x === enemy.x && item.y === enemy.y
+  );
+  const newItem =
+    itemIndex !== -1
+      ? [
+          {
+            x: Math.floor(gridWidth * Math.random()),
+            y: Math.floor(gridHeight * Math.random()),
+          },
+        ]
+      : [];
+
+  return {
+    ...state,
+    items: [
+      ...(itemIndex !== -1
+        ? state.items.filter((_, index) => index !== itemIndex)
+        : state.items),
+      ...newItem,
+    ],
+    points: itemIndex !== -1 ? state.points - 1 : state.points,
+    enemies: [
+      ...state.enemies.slice(0, enemyIndex),
+      enemy,
+      ...state.enemies.slice(enemyIndex + 1, state.enemies.length),
+    ],
+  };
+};
+
+const reducer = (state: State, action: Action): State => {
+  const playerState = movePlayer(state, action);
+
+  return state.enemies.reduce((acc, _, index) => {
+    return moveEnemy(acc, index, pathfinder);
+  }, playerState);
 };
 
 function App() {
