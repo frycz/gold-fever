@@ -28,6 +28,13 @@ type State = {
   enemies: Array<Enemy>;
 };
 
+type Config = {
+  gridWidth: number;
+  gridHeight: number;
+};
+
+type Reducer = (state: State, action: Action, config: Config) => State;
+
 const gridWidth = 10;
 const gridHeight = 10;
 
@@ -51,11 +58,39 @@ const initialState: State = {
 
 const init = () => initialState;
 
-const movePlayer = (state: State, action: Action): State => {
+const collectGold = (
+  state: State,
+  character: Player | Enemy,
+  onItemCollected: (state: State) => State
+) => {
+  const itemIndex = state.items.findIndex(
+    (item) => item.x === character.x && item.y === character.y
+  );
+
+  return {
+    ...state,
+    ...(itemIndex !== -1
+      ? {
+          ...onItemCollected(state),
+          items:
+            itemIndex !== -1
+              ? [
+                  ...state.items.slice(0, itemIndex),
+                  {
+                    x: Math.floor(gridWidth * Math.random()),
+                    y: Math.floor(gridHeight * Math.random()),
+                  },
+                  ...state.items.slice(itemIndex + 1, state.items.length),
+                ]
+              : state.items,
+        }
+      : {}),
+  };
+};
+
+const movePlayer = (state: State, action: Action, config: Config) => {
   let newX = state.player.x;
   let newY = state.player.y;
-  let itemIndex = -1;
-  let newItem: Array<Item> = [];
 
   if (action === "up") {
     newX = state.player.x;
@@ -64,29 +99,21 @@ const movePlayer = (state: State, action: Action): State => {
   if (action === "down") {
     newX = state.player.x;
     newY =
-      state.player.y < gridHeight - 1 ? state.player.y + 1 : state.player.y;
+      state.player.y < config.gridHeight - 1
+        ? state.player.y + 1
+        : state.player.y;
   }
   if (action === "left") {
     newX = state.player.x > 0 ? state.player.x - 1 : state.player.x;
     newY = state.player.y;
   }
   if (action === "right") {
-    newX = state.player.x < gridWidth - 1 ? state.player.x + 1 : state.player.x;
+    newX =
+      state.player.x < config.gridWidth - 1
+        ? state.player.x + 1
+        : state.player.x;
     newY = state.player.y;
   }
-
-  itemIndex = state.items.findIndex(
-    (item) => item.x === newX && item.y === newY
-  );
-  newItem =
-    itemIndex !== -1
-      ? [
-          {
-            x: Math.floor(gridWidth * Math.random()),
-            y: Math.floor(gridHeight * Math.random()),
-          },
-        ]
-      : [];
 
   return {
     ...state,
@@ -94,15 +121,50 @@ const movePlayer = (state: State, action: Action): State => {
       x: newX,
       y: newY,
     },
-    points: itemIndex !== -1 ? state.points + 1 : state.points,
-    items: [
-      ...(itemIndex !== -1
-        ? state.items.filter((_, index) => index !== itemIndex)
-        : state.items),
-      ...newItem,
-    ],
   };
 };
+
+const getStateReducer =
+  (config: Config) =>
+  (initialState: State, action: Action, reducers: Array<Reducer>) =>
+    reducers.reduce(
+      (accState, reducer) => reducer(accState, action, config),
+      initialState
+    );
+
+const stateReducer = getStateReducer({ gridWidth, gridHeight });
+
+const movePlayerReducer = (accState: State, action: Action, config: Config) =>
+  movePlayer(accState, action, config);
+const moveEnemiesReducer = (accState: State, action: Action, config: Config) =>
+  stateReducer(
+    accState,
+    action,
+    accState.enemies.map(
+      (_, index) => (accState, action, config) =>
+        moveEnemy(accState, index, pathfinder)
+    )
+  );
+const collectGoldReducer = (accState: State, action: Action, config: Config) =>
+  stateReducer(accState, action, [
+    (accState, action, config) =>
+      collectGold(accState, accState.player, (newState) => ({
+        ...newState,
+        points: newState.points + 1,
+      })),
+    (accState, action, config) =>
+      stateReducer(
+        accState,
+        action,
+        accState.enemies.map(
+          (enemy, index) => (accState: State, action: Action, config: Config) =>
+            collectGold(accState, enemy, (newState) => ({
+              ...newState,
+              points: newState.points - 1,
+            }))
+        )
+      ),
+  ]);
 
 const moveEnemy = (
   state: State,
@@ -130,28 +192,8 @@ const moveEnemy = (
   enemy.x = newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x;
   enemy.y = newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y;
 
-  const itemIndex = state.items.findIndex(
-    (item) => item.x === enemy.x && item.y === enemy.y
-  );
-  const newItem =
-    itemIndex !== -1
-      ? [
-          {
-            x: Math.floor(gridWidth * Math.random()),
-            y: Math.floor(gridHeight * Math.random()),
-          },
-        ]
-      : [];
-
   return {
     ...state,
-    items: [
-      ...(itemIndex !== -1
-        ? state.items.filter((_, index) => index !== itemIndex)
-        : state.items),
-      ...newItem,
-    ],
-    points: itemIndex !== -1 ? state.points - 1 : state.points,
     enemies: [
       ...state.enemies.slice(0, enemyIndex),
       enemy,
@@ -160,13 +202,12 @@ const moveEnemy = (
   };
 };
 
-const reducer = (state: State, action: Action): State => {
-  const playerState = movePlayer(state, action);
-
-  return state.enemies.reduce((acc, _, index) => {
-    return moveEnemy(acc, index, pathfinder);
-  }, playerState);
-};
+const reducer = (state: State, action: Action): State =>
+  stateReducer(state, action, [
+    movePlayerReducer,
+    moveEnemiesReducer,
+    collectGoldReducer,
+  ]);
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState, init);
