@@ -185,6 +185,7 @@ const moveEnemy = (
     .map((item) =>
       pathfinder.findPath(enemy.x, enemy.y, item.x, item.y, grid.clone())
     )
+    .filter((path) => path.length)
     .sort((pathA, pathB) => pathA.length - pathB.length);
 
   const [newEnemyX, newEnemyY] = paths[0][1] ? paths[0][1] : [enemy.x, enemy.y];
