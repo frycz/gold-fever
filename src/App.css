@@ -2,6 +2,20 @@ body {
   background-color: #efe6a3;
 }
 
+.button {
+  padding: 20px;
+  width: 100px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  color: #fffad5;
+  background-color: #ab980a;
+}
+
+.button:hover {
+  background-color: #948409;
+}
+
 .grid-wrapper {
   display: flex;
   justify-content: center;

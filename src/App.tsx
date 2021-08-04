@@ -181,14 +181,25 @@ const moveEnemy = (
     }
   });
 
+  const maxLevel = 3;
+  const level = 0;
+  const itemsToCut = maxLevel - level;
+
   const paths = state.items
+    .slice(
+      0,
+      state.items.length > itemsToCut
+        ? state.items.length - itemsToCut
+        : state.items.length
+    )
     .map((item) =>
       pathfinder.findPath(enemy.x, enemy.y, item.x, item.y, grid.clone())
     )
     .filter((path) => path.length)
     .sort((pathA, pathB) => pathA.length - pathB.length);
 
-  const [newEnemyX, newEnemyY] = paths[0][1] ? paths[0][1] : [enemy.x, enemy.y];
+  const [newEnemyX, newEnemyY] =
+    paths[0] && paths[0][1] ? paths[0][1] : [enemy.x, enemy.y];
 
   enemy.x = newEnemyX <= 9 && newEnemyX >= 0 ? newEnemyX : enemy.x;
   enemy.y = newEnemyY <= 9 && newEnemyY >= 0 ? newEnemyY : enemy.y;
@@ -211,6 +222,7 @@ const reducer = (state: State, action: Action): State =>
   ]);
 
 function App() {
+  const [level, setLevel] = React.useState<number>();
   const [state, dispatch] = React.useReducer(reducer, initialState, init);
 
   const keyDownHandler = (e: KeyboardEvent) => {
@@ -242,14 +254,46 @@ function App() {
           <div className="game-description">Collect all the gold</div>
           <div className="game-instruction">Use arrow keys to move</div>
         </div>
-        <Grid
-          width={gridWidth}
-          height={gridHeight}
-          playerX={state.player.x}
-          playerY={state.player.y}
-          items={state.items}
-          enemies={state.enemies}
-        />
+        {level === undefined ? (
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                marginBottom: "20px",
+                marginTop: "12px",
+                color: "#887a12",
+                fontSize: "24px",
+              }}
+            >
+              Select difficulty level
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {["Easy", "Medium", "Hard", "Master"].map((level, index) => (
+                <div
+                  className="button"
+                  style={{ marginBottom: "10px" }}
+                  onClick={() => setLevel(index)}
+                >
+                  {level}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <Grid
+            width={gridWidth}
+            height={gridHeight}
+            playerX={state.player.x}
+            playerY={state.player.y}
+            items={state.items}
+            enemies={state.enemies}
+          />
+        )}
         <div className="side">
           <div className="score">
             <div className="score-title">Score:</div>
