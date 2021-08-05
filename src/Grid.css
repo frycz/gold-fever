@@ -18,8 +18,14 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  background-color: #eac868;
   z-index: 1;
+}
+
+.gold-field {
+  background-color: #eac868;
+}
+.fake-gold-field {
+  background-color: #f77474;
 }
 
 .enemy-field {

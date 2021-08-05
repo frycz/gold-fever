@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { Item } from "./App";
 import "./Grid.css";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
   height: number;
   playerX: number;
   playerY: number;
-  items: Array<{ x: number; y: number }>;
+  items: Array<Item>;
   enemies: Array<{ x: number; y: number }>;
 };
 
@@ -31,8 +32,16 @@ export const Grid = ({
                 {playerX === x && playerY === y ? (
                   <div className="player-field" />
                 ) : null}
-                {items.find((item) => item.x === x && item.y === y) ? (
-                  <div className="item-field" />
+                {items.find(
+                  (item) => item.x === x && item.y === y && item.type === "gold"
+                ) ? (
+                  <div className="item-field gold-field" />
+                ) : null}
+                {items.find(
+                  (item) =>
+                    item.x === x && item.y === y && item.type === "fakeGold"
+                ) ? (
+                  <div className="item-field fake-gold-field" />
                 ) : null}
                 {enemies.find((enemy) => enemy.x === x && enemy.y === y) ? (
                   <div className="enemy-field" />

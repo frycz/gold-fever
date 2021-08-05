@@ -9,9 +9,10 @@ type Player = {
   y: number;
 };
 
-type Item = {
+export type Item = {
   x: number;
   y: number;
+  type: "gold" | "fakeGold";
 };
 
 type Enemy = {
@@ -19,7 +20,7 @@ type Enemy = {
   y: number;
 };
 
-type Action = "up" | "down" | "left" | "right";
+type Action = "up" | "down" | "left" | "right" | "space";
 
 type State = {
   points: number;
@@ -44,10 +45,10 @@ const initialState: State = {
   points: 0,
   player: { x: 0, y: 0 },
   items: [
-    { x: 2, y: 7 },
-    { x: 8, y: 5 },
-    { x: 4, y: 5 },
-    { x: 6, y: 3 },
+    { x: 2, y: 7, type: "gold" },
+    { x: 8, y: 5, type: "gold" },
+    { x: 4, y: 5, type: "gold" },
+    { x: 6, y: 3, type: "gold" },
   ],
   enemies: [
     // { x: 0, y: 9 },
@@ -64,7 +65,8 @@ const collectGold = (
   onItemCollected: (state: State) => State
 ) => {
   const itemIndex = state.items.findIndex(
-    (item) => item.x === character.x && item.y === character.y
+    (item) =>
+      item.x === character.x && item.y === character.y && item.type === "gold"
   );
 
   return {
@@ -79,7 +81,37 @@ const collectGold = (
                   {
                     x: Math.floor(gridWidth * Math.random()),
                     y: Math.floor(gridHeight * Math.random()),
-                  },
+                    type: "gold",
+                  } as const,
+                  ...state.items.slice(itemIndex + 1, state.items.length),
+                ]
+              : state.items,
+        }
+      : {}),
+  };
+};
+
+const collectFakeGold = (
+  state: State,
+  character: Player | Enemy,
+  onItemCollected: (state: State) => State
+) => {
+  const itemIndex = state.items.findIndex(
+    (item) =>
+      item.x === character.x &&
+      item.y === character.y &&
+      item.type === "fakeGold"
+  );
+
+  return {
+    ...state,
+    ...(itemIndex !== -1
+      ? {
+          ...onItemCollected(state),
+          items:
+            itemIndex !== -1
+              ? [
+                  ...state.items.slice(0, itemIndex),
                   ...state.items.slice(itemIndex + 1, state.items.length),
                 ]
               : state.items,
@@ -203,36 +235,124 @@ const reducer = (state: State, action: Action): State =>
         points: newState.points + 1,
       })),
     moveEnemiesReducer,
+    // collect fake gold reducer
     (accState, action, config) =>
       stateReducer(
         accState,
         action,
         accState.enemies.map(
           (enemy, index) => (accState: State, action: Action, config: Config) =>
-            collectGold(accState, enemy, (newState) => ({
-              ...newState,
-              points: newState.points - 1,
-            }))
+            collectFakeGold(accState, enemy, (newState) => newState)
         )
       ),
+    // handle space press
+    (state: State, action: Action, config: Config) => {
+      if (action === "space") {
+        return {
+          ...state,
+          points: state.points - 1,
+          items: [
+            ...state.items,
+            {
+              x: state.player.x,
+              y: state.player.y,
+              type: "fakeGold",
+            },
+          ],
+        };
+      }
+
+      return state;
+    },
   ]);
+
+type TestState = {
+  points: number;
+  sum: number,
+  rounds: number,
+  items: Array<number>;
+};
+
+const initialPoints = 100;
+const initialItems = [-10, 10, 10, 10, 10, 10]
+const initialSum = initialItems.reduce(
+  (accSum, item) => accSum + item,
+  initialPoints
+);
+
+const SomeTests = () => {
+  const [state, setState] = React.useState<TestState>({
+    points: initialPoints,
+    sum: initialSum,
+    rounds: 0,
+    items: initialItems,
+  });
+
+  
+
+  const generateItem = (state: TestState) => {
+    const lowestSumLimit = 10 // the lower the limit the harder the game
+    const availableMargin = state.sum - lowestSumLimit
+    const range = 1 + state.rounds
+    if (availableMargin < 0) {
+      return 10 * Math.ceil(Math.random() * range)
+    }
+
+    return -10 * Math.ceil(Math.random() * range)
+  }
+
+  const applyItemAt = (index: number) => {
+    setState(state => {
+      const newItem = generateItem(state)
+      return {
+      ...state,
+      rounds: state.rounds + 1,
+      points: state.points + state.items[index],
+      sum: state.sum + newItem,
+      items: [
+        ...state.items.slice(0, index),
+        newItem,
+        ...state.items.slice(index + 1, state.items.length),
+      ]
+    }})
+  }
+
+  return (
+    <div>
+      <div>Some tests</div>
+      <div>{`Points: ${state.points}`}</div>
+      <div>{`Game sum: ${state.sum}`}</div>
+      <div>
+        {state.items.map((item, index) => (
+          <div key={index}>
+            <button onClick={() => applyItemAt(index)}>{item}</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function App() {
   const [level, setLevel] = React.useState<number>(3);
   const [state, dispatch] = React.useReducer(reducer, initialState, init);
 
   const keyDownHandler = (e: KeyboardEvent) => {
-    if (e.key === "ArrowUp") {
+    if (e.code === "ArrowUp") {
       dispatch("up");
     }
-    if (e.key === "ArrowDown") {
+    if (e.code === "ArrowDown") {
       dispatch("down");
     }
-    if (e.key === "ArrowLeft") {
+    if (e.code === "ArrowLeft") {
       dispatch("left");
     }
-    if (e.key === "ArrowRight") {
+    if (e.code === "ArrowRight") {
       dispatch("right");
+    }
+    if (e.code === "Space") {
+      console.log("space");
+      dispatch("space");
     }
   };
 
@@ -243,44 +363,14 @@ function App() {
   }, []);
 
   return (
-    <div className="grid-wrapper">
-      <div className="grid-container">
-        <div className="side">
-          <div className="game-title">Gold Fever</div>
-          <div className="game-description">Collect all the gold</div>
-          <div className="game-instruction">Use arrow keys to move</div>
-        </div>
-        {level === undefined ? (
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                marginBottom: "20px",
-                marginTop: "12px",
-                color: "#887a12",
-                fontSize: "24px",
-              }}
-            >
-              Select difficulty level
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {["Easy", "Medium", "Hard", "Master"].map((level, index) => (
-                <div
-                  className="button"
-                  style={{ marginBottom: "10px" }}
-                  onClick={() => setLevel(index)}
-                >
-                  {level}
-                </div>
-              ))}
-            </div>
+    <div>
+      <div className="grid-wrapper">
+        <div className="grid-container">
+          <div className="side">
+            <div className="game-title">Gold Fever</div>
+            <div className="game-description">Collect all the gold</div>
+            <div className="game-instruction">Use arrow keys to move</div>
           </div>
-        ) : (
           <Grid
             width={gridWidth}
             height={gridHeight}
@@ -289,14 +379,15 @@ function App() {
             items={state.items}
             enemies={state.enemies}
           />
-        )}
-        <div className="side">
-          <div className="score">
-            <div className="score-title">Score:</div>
-            <div className="score-value">{state.points}</div>
+          <div className="side">
+            <div className="score">
+              <div className="score-title">Score:</div>
+              <div className="score-value">{state.points}</div>
+            </div>
           </div>
         </div>
       </div>
+      {/*<SomeTests />*/}
     </div>
   );
 }
