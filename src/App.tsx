@@ -145,26 +145,6 @@ const moveEnemiesReducer = (accState: State, action: Action, config: Config) =>
         moveEnemy(accState, index, pathfinder)
     )
   );
-const collectGoldReducer = (accState: State, action: Action, config: Config) =>
-  stateReducer(accState, action, [
-    (accState, action, config) =>
-      collectGold(accState, accState.player, (newState) => ({
-        ...newState,
-        points: newState.points + 1,
-      })),
-    (accState, action, config) =>
-      stateReducer(
-        accState,
-        action,
-        accState.enemies.map(
-          (enemy, index) => (accState: State, action: Action, config: Config) =>
-            collectGold(accState, enemy, (newState) => ({
-              ...newState,
-              points: newState.points - 1,
-            }))
-        )
-      ),
-  ]);
 
 const moveEnemy = (
   state: State,
@@ -217,12 +197,28 @@ const moveEnemy = (
 const reducer = (state: State, action: Action): State =>
   stateReducer(state, action, [
     movePlayerReducer,
+    (accState, action, config) =>
+      collectGold(accState, accState.player, (newState) => ({
+        ...newState,
+        points: newState.points + 1,
+      })),
     moveEnemiesReducer,
-    collectGoldReducer,
+    (accState, action, config) =>
+      stateReducer(
+        accState,
+        action,
+        accState.enemies.map(
+          (enemy, index) => (accState: State, action: Action, config: Config) =>
+            collectGold(accState, enemy, (newState) => ({
+              ...newState,
+              points: newState.points - 1,
+            }))
+        )
+      ),
   ]);
 
 function App() {
-  const [level, setLevel] = React.useState<number>();
+  const [level, setLevel] = React.useState<number>(3);
   const [state, dispatch] = React.useReducer(reducer, initialState, init);
 
   const keyDownHandler = (e: KeyboardEvent) => {
