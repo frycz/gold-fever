@@ -76,34 +76,22 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
           showHints={!hasMoved}
           hasMoved={hasMoved}
         />
-        <div className="arrow-controls">
-          <div className="arrow-controls-row">
-            <div
-              className="arrow-btn"
-              onClick={() => handleMove("up")}
-            >
-              ▲
-            </div>
+      </div>
+      <div className="arrow-controls">
+        <div className="arrow-controls-row">
+          <div className="arrow-btn" onClick={() => handleMove("up")}>
+            ▲
           </div>
-          <div className="arrow-controls-row">
-            <div
-              className="arrow-btn"
-              onClick={() => handleMove("left")}
-            >
-              ◀
-            </div>
-            <div
-              className="arrow-btn"
-              onClick={() => handleMove("down")}
-            >
-              ▼
-            </div>
-            <div
-              className="arrow-btn"
-              onClick={() => handleMove("right")}
-            >
-              ▶
-            </div>
+        </div>
+        <div className="arrow-controls-row">
+          <div className="arrow-btn" onClick={() => handleMove("left")}>
+            ◀
+          </div>
+          <div className="arrow-btn" onClick={() => handleMove("down")}>
+            ▼
+          </div>
+          <div className="arrow-btn" onClick={() => handleMove("right")}>
+            ▶
           </div>
         </div>
       </div>

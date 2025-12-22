@@ -51,7 +51,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  transform-origin: center center;
 }
 
 .grid-inner {
@@ -248,65 +247,65 @@
   border-radius: 0 0 10px 10px;
 }
 
-/* Responsive grid scaling - width based */
+/* Responsive grid scaling - width based (using zoom for layout-affecting scale) */
 @media (max-width: 620px) {
   .grid {
-    transform: scale(0.85);
+    zoom: 0.85;
   }
 }
 
 @media (max-width: 540px) {
   .grid {
-    transform: scale(0.75);
+    zoom: 0.75;
   }
 }
 
 @media (max-width: 460px) {
   .grid {
-    transform: scale(0.65);
+    zoom: 0.65;
   }
 }
 
 @media (max-width: 400px) {
   .grid {
-    transform: scale(0.55);
+    zoom: 0.55;
   }
 }
 
 @media (max-width: 340px) {
   .grid {
-    transform: scale(0.48);
+    zoom: 0.48;
   }
 }
 
 /* Height-based scaling for landscape/small height */
 @media (max-height: 750px) {
   .grid {
-    transform: scale(0.8);
+    zoom: 0.8;
   }
 }
 
 @media (max-height: 650px) {
   .grid {
-    transform: scale(0.7);
+    zoom: 0.7;
   }
 }
 
 @media (max-height: 550px) {
   .grid {
-    transform: scale(0.6);
+    zoom: 0.6;
   }
 }
 
 /* Combined small width and height */
 @media (max-width: 460px) and (max-height: 750px) {
   .grid {
-    transform: scale(0.55);
+    zoom: 0.55;
   }
 }
 
 @media (max-width: 400px) and (max-height: 700px) {
   .grid {
-    transform: scale(0.48);
+    zoom: 0.48;
   }
 }
