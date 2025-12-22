@@ -146,6 +146,7 @@
 @media (max-width: 1025px) {
   .arrow-controls {
     display: flex;
+    margin-bottom: 80px;
   }
 }
 
