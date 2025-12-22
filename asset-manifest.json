@@ -1,22 +1,15 @@
 {
   "files": {
-    "main.css": "/gold-fever/static/css/main.897f5073.chunk.css",
-    "main.js": "/gold-fever/static/js/main.dbcbb62e.chunk.js",
-    "main.js.map": "/gold-fever/static/js/main.dbcbb62e.chunk.js.map",
-    "runtime-main.js": "/gold-fever/static/js/runtime-main.08f3d3a1.js",
-    "runtime-main.js.map": "/gold-fever/static/js/runtime-main.08f3d3a1.js.map",
-    "static/js/2.6e5ace72.chunk.js": "/gold-fever/static/js/2.6e5ace72.chunk.js",
-    "static/js/2.6e5ace72.chunk.js.map": "/gold-fever/static/js/2.6e5ace72.chunk.js.map",
-    "static/js/3.ee082874.chunk.js": "/gold-fever/static/js/3.ee082874.chunk.js",
-    "static/js/3.ee082874.chunk.js.map": "/gold-fever/static/js/3.ee082874.chunk.js.map",
+    "main.css": "/gold-fever/static/css/main.c7d50984.css",
+    "main.js": "/gold-fever/static/js/main.f7056460.js",
+    "static/js/488.ccc76529.chunk.js": "/gold-fever/static/js/488.ccc76529.chunk.js",
     "index.html": "/gold-fever/index.html",
-    "static/css/main.897f5073.chunk.css.map": "/gold-fever/static/css/main.897f5073.chunk.css.map",
-    "static/js/2.6e5ace72.chunk.js.LICENSE.txt": "/gold-fever/static/js/2.6e5ace72.chunk.js.LICENSE.txt"
+    "main.c7d50984.css.map": "/gold-fever/static/css/main.c7d50984.css.map",
+    "main.f7056460.js.map": "/gold-fever/static/js/main.f7056460.js.map",
+    "488.ccc76529.chunk.js.map": "/gold-fever/static/js/488.ccc76529.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.08f3d3a1.js",
-    "static/js/2.6e5ace72.chunk.js",
-    "static/css/main.897f5073.chunk.css",
-    "static/js/main.dbcbb62e.chunk.js"
+    "static/css/main.c7d50984.css",
+    "static/js/main.f7056460.js"
   ]
 }
