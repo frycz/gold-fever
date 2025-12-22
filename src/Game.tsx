@@ -17,12 +17,8 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
     currentLevel,
     maxLevel,
   });
-  const [hasMoved, setHasMoved] = React.useState(false);
 
   const keyDownHandler = (e: KeyboardEvent) => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-      setHasMoved(true);
-    }
     if (e.key === "ArrowUp") {
       dispatch("up");
     }
@@ -43,21 +39,28 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
     return () => window.removeEventListener("keydown", keyDownHandler);
   }, []);
 
+  const handleMove = (direction: "up" | "down" | "left" | "right") => {
+    dispatch(direction);
+  };
+
   return (
-    <div className="grid-wrapper">
-      <div className="grid-container">
-        <div className="side">
-          <div className="game-title">Gold Fever</div>
-          <div className="game-description">Collect all the gold</div>
-          <div className="game-buttons">
-            <div className="button" onClick={onRestart}>
-              Restart
-            </div>
-            <div className="button button-secondary" onClick={onFinish}>
-              Finish
-            </div>
+    <div className="game-wrapper">
+      <div className="game-header">
+        <div className="game-title">Gold Fever</div>
+        <div className="game-buttons">
+          <div className="button" onClick={onRestart}>
+            Restart
+          </div>
+          <div className="button button-secondary" onClick={onFinish}>
+            Finish
           </div>
         </div>
+        <div className="score">
+          <span className="score-title">Score:</span>
+          <span className="score-value">{state.points}</span>
+        </div>
+      </div>
+      <div className="game-area">
         <Grid
           width={gridWidth}
           height={gridHeight}
@@ -65,12 +68,35 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
           playerY={state.player.y}
           items={state.items}
           enemies={state.enemies}
-          showHints={!hasMoved}
         />
-        <div className="side">
-          <div className="score">
-            <div className="score-title">Score:</div>
-            <div className="score-value">{state.points}</div>
+        <div className="arrow-controls">
+          <div className="arrow-controls-row">
+            <div
+              className="arrow-btn"
+              onClick={() => handleMove("up")}
+            >
+              ▲
+            </div>
+          </div>
+          <div className="arrow-controls-row">
+            <div
+              className="arrow-btn"
+              onClick={() => handleMove("left")}
+            >
+              ◀
+            </div>
+            <div
+              className="arrow-btn"
+              onClick={() => handleMove("down")}
+            >
+              ▼
+            </div>
+            <div
+              className="arrow-btn"
+              onClick={() => handleMove("right")}
+            >
+              ▶
+            </div>
           </div>
         </div>
       </div>

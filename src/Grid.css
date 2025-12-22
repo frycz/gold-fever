@@ -44,59 +44,19 @@
 
 .grid {
   background: linear-gradient(145deg, #2d3a4f, #1e2a3a);
-  padding: 16px;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 12px;
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 10px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
+  transform-origin: center center;
 }
 
 .grid-inner {
   position: relative;
   overflow: visible;
-}
-
-@keyframes arrowColorBlink {
-  0%, 100% {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  50% {
-    color: #d4af37;
-  }
-}
-
-.arrow-hint {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  top: 3px;
-  left: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.arrow-icon {
-  font-size: 20px;
-  animation: arrowColorBlink 1.5s ease-in-out infinite;
-}
-
-.move-hint {
-  position: absolute;
-  right: -180px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  animation: arrowColorBlink 1.5s ease-in-out infinite;
-  padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .grid-field {
@@ -218,4 +178,67 @@
   border: 2px solid #fff;
   border-top: none;
   border-radius: 0 0 10px 10px;
+}
+
+/* Responsive grid scaling - width based */
+@media (max-width: 620px) {
+  .grid {
+    transform: scale(0.85);
+  }
+}
+
+@media (max-width: 540px) {
+  .grid {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 460px) {
+  .grid {
+    transform: scale(0.65);
+  }
+}
+
+@media (max-width: 400px) {
+  .grid {
+    transform: scale(0.55);
+  }
+}
+
+@media (max-width: 340px) {
+  .grid {
+    transform: scale(0.48);
+  }
+}
+
+/* Height-based scaling for landscape/small height */
+@media (max-height: 750px) {
+  .grid {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-height: 650px) {
+  .grid {
+    transform: scale(0.7);
+  }
+}
+
+@media (max-height: 550px) {
+  .grid {
+    transform: scale(0.6);
+  }
+}
+
+/* Combined small width and height */
+@media (max-width: 460px) and (max-height: 750px) {
+  .grid {
+    transform: scale(0.55);
+  }
+}
+
+@media (max-width: 400px) and (max-height: 700px) {
+  .grid {
+    transform: scale(0.48);
+  }
 }

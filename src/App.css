@@ -1,108 +1,99 @@
-.button {
-  padding: 16px 32px;
-  width: 160px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  color: #fff;
-  background-color: #b5842b;
-  font-size: 18px;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 4px 15px rgba(181, 132, 43, 0.4);
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.button:hover {
-  background-color: #a37625;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(181, 132, 43, 0.5);
-}
-
-.button:active {
-  transform: translateY(-1px);
-}
-
-.grid-wrapper {
+.app-wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
-  min-height: 100vh;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.grid-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
-}
-
-.side {
-  width: 220px;
-  padding: 24px;
+.menu-container {
+  text-align: center;
+  padding: 32px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.score {
-  text-align: center;
-}
-
-.score-title {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-}
-
-.score-value {
-  font-size: 64px;
-  font-weight: bold;
-  background: linear-gradient(145deg, #ffd700, #ffaa00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-}
-
-.game-title {
-  font-size: 36px;
+.menu-title {
+  font-size: 42px;
   font-weight: 800;
-  text-align: center;
   background: linear-gradient(145deg, #ffd700, #ff8c00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 8px;
-  text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
 }
 
-.game-description {
+.menu-description {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.game-instruction {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
-  text-align: center;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 16px;
+  margin-bottom: 24px;
 }
 
 .difficulty-prompt {
-  margin-bottom: 20px;
-  margin-top: 12px;
+  margin-bottom: 16px;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.difficulty-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-button {
+  padding: 12px 24px;
+  width: 160px;
+  border-radius: 10px;
   text-align: center;
+  cursor: pointer;
+  color: #fff;
+  background-color: #b5842b;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 3px 12px rgba(181, 132, 43, 0.4);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-button:hover {
+  background-color: #a37625;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(181, 132, 43, 0.5);
+}
+
+.menu-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .menu-container {
+    padding: 24px;
+  }
+
+  .menu-title {
+    font-size: 32px;
+  }
+
+  .menu-description {
+    font-size: 14px;
+  }
+
+  .difficulty-prompt {
+    font-size: 16px;
+  }
+
+  .menu-button {
+    padding: 10px 20px;
+    width: 140px;
+    font-size: 14px;
+  }
 }
