@@ -5,19 +5,20 @@
   text-align: center;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(145deg, #f5af19, #f12711);
+  background-color: #b5842b;
   font-size: 18px;
   font-weight: 600;
   border: none;
-  box-shadow: 0 4px 15px rgba(241, 39, 17, 0.4);
+  box-shadow: 0 4px 15px rgba(181, 132, 43, 0.4);
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .button:hover {
+  background-color: #a37625;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(241, 39, 17, 0.5);
+  box-shadow: 0 6px 20px rgba(181, 132, 43, 0.5);
 }
 
 .button:active {

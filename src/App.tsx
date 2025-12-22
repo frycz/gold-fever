@@ -5,6 +5,10 @@ import "./App.css";
 
 const App = () => {
   const [level, setLevel] = React.useState<number>();
+  const [gameKey, setGameKey] = React.useState(0);
+
+  const handleFinish = () => setLevel(undefined);
+  const handleRestart = () => setGameKey((k) => k + 1);
 
   return (
     <div>
@@ -38,7 +42,13 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <Game currentLevel={level} maxLevel={3} />
+        <Game
+          key={gameKey}
+          currentLevel={level}
+          maxLevel={3}
+          onFinish={handleFinish}
+          onRestart={handleRestart}
+        />
       )}
     </div>
   );

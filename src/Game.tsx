@@ -7,9 +7,11 @@ import "./Game.css";
 type Props = {
   currentLevel: number;
   maxLevel: number;
+  onFinish: () => void;
+  onRestart: () => void;
 };
 
-const Game = ({ currentLevel, maxLevel }: Props) => {
+const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
   const [state, dispatch] = React.useReducer(reducer, {
     ...initialState,
     currentLevel,
@@ -44,6 +46,14 @@ const Game = ({ currentLevel, maxLevel }: Props) => {
           <div className="game-title">Gold Fever</div>
           <div className="game-description">Collect all the gold</div>
           <div className="game-instruction">Use arrow keys to move</div>
+          <div className="game-buttons">
+            <div className="button" onClick={onRestart}>
+              Restart
+            </div>
+            <div className="button button-secondary" onClick={onFinish}>
+              Finish
+            </div>
+          </div>
         </div>
         <Grid
           width={gridWidth}
