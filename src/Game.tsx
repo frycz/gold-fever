@@ -17,8 +17,12 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
     currentLevel,
     maxLevel,
   });
+  const [hasMoved, setHasMoved] = React.useState(false);
 
   const keyDownHandler = (e: KeyboardEvent) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      setHasMoved(true);
+    }
     if (e.key === "ArrowUp") {
       dispatch("up");
     }
@@ -68,6 +72,7 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
           playerY={state.player.y}
           items={state.items}
           enemies={state.enemies}
+          showHints={!hasMoved}
         />
         <div className="arrow-controls">
           <div className="arrow-controls-row">
