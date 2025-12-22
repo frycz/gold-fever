@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/gold-fever/static/css/main.c7d50984.css",
-    "main.js": "/gold-fever/static/js/main.f7056460.js",
+    "main.css": "/gold-fever/static/css/main.a0269276.css",
+    "main.js": "/gold-fever/static/js/main.c76df934.js",
     "static/js/488.ccc76529.chunk.js": "/gold-fever/static/js/488.ccc76529.chunk.js",
     "index.html": "/gold-fever/index.html",
-    "main.c7d50984.css.map": "/gold-fever/static/css/main.c7d50984.css.map",
-    "main.f7056460.js.map": "/gold-fever/static/js/main.f7056460.js.map",
+    "main.a0269276.css.map": "/gold-fever/static/css/main.a0269276.css.map",
+    "main.c76df934.js.map": "/gold-fever/static/js/main.c76df934.js.map",
     "488.ccc76529.chunk.js.map": "/gold-fever/static/js/488.ccc76529.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7d50984.css",
-    "static/js/main.f7056460.js"
+    "static/css/main.a0269276.css",
+    "static/js/main.c76df934.js"
   ]
 }
