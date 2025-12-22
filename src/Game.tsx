@@ -17,8 +17,12 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
     currentLevel,
     maxLevel,
   });
+  const [hasMoved, setHasMoved] = React.useState(false);
 
   const keyDownHandler = (e: KeyboardEvent) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      setHasMoved(true);
+    }
     if (e.key === "ArrowUp") {
       dispatch("up");
     }
@@ -45,7 +49,6 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
         <div className="side">
           <div className="game-title">Gold Fever</div>
           <div className="game-description">Collect all the gold</div>
-          <div className="game-instruction">Use arrow keys to move</div>
           <div className="game-buttons">
             <div className="button" onClick={onRestart}>
               Restart
@@ -62,6 +65,7 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
           playerY={state.player.y}
           items={state.items}
           enemies={state.enemies}
+          showHints={!hasMoved}
         />
         <div className="side">
           <div className="score">
