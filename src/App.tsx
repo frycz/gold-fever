@@ -14,14 +14,7 @@ const App = () => {
             <div className="side" style={{ textAlign: "center" }}>
               <div className="game-title">Gold Fever</div>
               <div className="game-description">Collect all the gold</div>
-              <div
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "12px",
-                  color: "#887a12",
-                  fontSize: "24px",
-                }}
-              >
+              <div className="difficulty-prompt">
                 Select difficulty level
               </div>
               <div

@@ -1,66 +1,99 @@
-body {
-  background-color: #efe6a3;
-}
-
 .button {
-  padding: 20px;
-  width: 100px;
-  border-radius: 10px;
+  padding: 16px 32px;
+  width: 160px;
+  border-radius: 12px;
   text-align: center;
   cursor: pointer;
-  color: #fffad5;
-  background-color: #ab980a;
+  color: #fff;
+  background: linear-gradient(145deg, #f5af19, #f12711);
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 15px rgba(241, 39, 17, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .button:hover {
-  background-color: #948409;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(241, 39, 17, 0.5);
+}
+
+.button:active {
+  transform: translateY(-1px);
 }
 
 .grid-wrapper {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
 }
 
 .grid-container {
   display: flex;
+  align-items: flex-start;
+  gap: 30px;
 }
 
 .side {
-  width: 300px;
+  width: 220px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .score {
-  color: #887a12;
-  padding: 10px;
   text-align: center;
 }
 
 .score-title {
-  font-size: 24px;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
 }
 
 .score-value {
-  font-size: 80px;
+  font-size: 64px;
   font-weight: bold;
+  background: linear-gradient(145deg, #ffd700, #ffaa00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .game-title {
-  color: #887a12;
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 800;
   text-align: center;
+  background: linear-gradient(145deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
 }
 
 .game-description {
-  color: #887a12;
-  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
   text-align: center;
-  margin-bottom: 200px;
+  margin-bottom: 32px;
 }
 
 .game-instruction {
-  color: #887a12;
-  font-size: 18px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
   text-align: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
