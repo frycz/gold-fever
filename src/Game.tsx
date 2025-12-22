@@ -44,6 +44,7 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
   }, []);
 
   const handleMove = (direction: "up" | "down" | "left" | "right") => {
+    setHasMoved(true);
     dispatch(direction);
   };
 
@@ -73,6 +74,7 @@ const Game = ({ currentLevel, maxLevel, onFinish, onRestart }: Props) => {
           items={state.items}
           enemies={state.enemies}
           showHints={!hasMoved}
+          hasMoved={hasMoved}
         />
         <div className="arrow-controls">
           <div className="arrow-controls-row">

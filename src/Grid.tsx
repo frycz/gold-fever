@@ -8,6 +8,7 @@ type Props = {
   items: Array<{ x: number; y: number }>;
   enemies: Array<{ x: number; y: number }>;
   showHints?: boolean;
+  hasMoved?: boolean;
 };
 
 const CELL_SIZE = 54; // 48px cell + 6px margin
@@ -20,6 +21,7 @@ export const Grid = ({
   items,
   enemies,
   showHints = false,
+  hasMoved = true,
 }: Props) => (
   <div className="grid">
     <div className="grid-inner">
@@ -39,7 +41,7 @@ export const Grid = ({
           </div>
         ))}
       <div
-        className="player-field"
+        className={`player-field${!hasMoved ? " player-idle" : ""}`}
         style={{
           transform: `translate(${playerX * CELL_SIZE}px, ${
             playerY * CELL_SIZE

@@ -106,11 +106,24 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+@keyframes playerIdleBob {
+  0%, 100% {
+    top: 5px;
+  }
+  50% {
+    top: -10px;
+  }
+}
+
 /* Hide desktop hints on mobile/tablet */
 @media (max-width: 900px) {
   .desktop-hints,
   .move-hint {
     display: none;
+  }
+
+  .player-idle {
+    animation: playerIdleBob 1s ease-in-out infinite;
   }
 }
 
