@@ -9,6 +9,21 @@
   }
 }
 
+@keyframes appear {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
@@ -37,6 +52,10 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.grid-inner {
+  position: relative;
+}
+
 .grid-field {
   position: relative;
   width: 48px;
@@ -63,7 +82,7 @@
     0 4px 15px rgba(255, 215, 0, 0.5),
     inset 0 -3px 6px rgba(0, 0, 0, 0.2),
     inset 0 3px 6px rgba(255, 255, 255, 0.4);
-  animation: pulse 1.5s ease-in-out infinite, float 2s ease-in-out infinite;
+  animation: appear 0.3s ease-out, pulse 1.5s ease-in-out 0.3s infinite, float 2s ease-in-out infinite;
 }
 
 .item-field::before {
@@ -81,8 +100,8 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  top: 4px;
-  left: 4px;
+  top: 7px;
+  left: 7px;
   border-radius: 50%;
   background: linear-gradient(145deg, #dc3545, #a71d2a);
   z-index: 2;
@@ -91,6 +110,7 @@
     inset 0 -3px 6px rgba(0, 0, 0, 0.3),
     inset 0 3px 6px rgba(255, 255, 255, 0.2);
   animation: enemyPulse 2s ease-in-out infinite;
+  transition: transform 0.12s ease-out;
 }
 
 .enemy-field::before {
@@ -121,8 +141,8 @@
   position: absolute;
   width: 42px;
   height: 42px;
-  top: 3px;
-  left: 3px;
+  top: 6px;
+  left: 6px;
   border-radius: 50%;
   background: linear-gradient(145deg, #4fc3f7, #0288d1);
   z-index: 3;
@@ -130,7 +150,7 @@
     0 4px 20px rgba(79, 195, 247, 0.5),
     inset 0 -4px 8px rgba(0, 0, 0, 0.2),
     inset 0 4px 8px rgba(255, 255, 255, 0.3);
-  transition: all 0.15s ease;
+  transition: transform 0.1s ease-out;
 }
 
 .player-field::before {

@@ -42,7 +42,7 @@ export const initialState: State = {
   currentLevel: 0,
   maxLevel: 0,
   points: 0,
-  player: { x: 0, y: 0 },
+  player: { x: 9, y: 9 },
   items: [
     { x: 2, y: 7 },
     { x: 8, y: 5 },
@@ -50,9 +50,7 @@ export const initialState: State = {
     { x: 6, y: 3 },
   ],
   enemies: [
-    // { x: 0, y: 9 },
-    // { x: 9, y: 0 },
-    { x: 9, y: 9 },
+    { x: 0, y: 0 },
   ],
 };
 
