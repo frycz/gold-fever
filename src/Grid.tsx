@@ -41,7 +41,9 @@ export const Grid = ({
       <div
         className="player-field"
         style={{
-          transform: `translate(${playerX * CELL_SIZE}px, ${playerY * CELL_SIZE}px)`,
+          transform: `translate(${playerX * CELL_SIZE}px, ${
+            playerY * CELL_SIZE
+          }px)`,
         }}
       />
       {showHints && (
@@ -49,7 +51,9 @@ export const Grid = ({
           <div
             className="arrow-hint"
             style={{
-              transform: `translate(${playerX * CELL_SIZE}px, ${playerY * CELL_SIZE - CELL_SIZE}px)`,
+              transform: `translate(${playerX * CELL_SIZE}px, ${
+                playerY * CELL_SIZE - CELL_SIZE
+              }px)`,
             }}
           >
             <span className="arrow-icon">▲</span>
@@ -57,7 +61,9 @@ export const Grid = ({
           <div
             className="arrow-hint"
             style={{
-              transform: `translate(${playerX * CELL_SIZE}px, ${playerY * CELL_SIZE + CELL_SIZE}px)`,
+              transform: `translate(${playerX * CELL_SIZE}px, ${
+                playerY * CELL_SIZE + CELL_SIZE
+              }px)`,
             }}
           >
             <span className="arrow-icon">▼</span>
@@ -65,7 +71,9 @@ export const Grid = ({
           <div
             className="arrow-hint"
             style={{
-              transform: `translate(${playerX * CELL_SIZE - CELL_SIZE}px, ${playerY * CELL_SIZE}px)`,
+              transform: `translate(${playerX * CELL_SIZE - CELL_SIZE}px, ${
+                playerY * CELL_SIZE
+              }px)`,
             }}
           >
             <span className="arrow-icon">◀</span>
@@ -73,7 +81,9 @@ export const Grid = ({
           <div
             className="arrow-hint"
             style={{
-              transform: `translate(${playerX * CELL_SIZE + CELL_SIZE}px, ${playerY * CELL_SIZE}px)`,
+              transform: `translate(${playerX * CELL_SIZE + CELL_SIZE}px, ${
+                playerY * CELL_SIZE
+              }px)`,
             }}
           >
             <span className="arrow-icon">▶</span>
@@ -85,20 +95,13 @@ export const Grid = ({
           key={index}
           className="enemy-field"
           style={{
-            transform: `translate(${enemy.x * CELL_SIZE}px, ${enemy.y * CELL_SIZE}px)`,
+            transform: `translate(${enemy.x * CELL_SIZE}px, ${
+              enemy.y * CELL_SIZE
+            }px)`,
           }}
         />
       ))}
     </div>
-    {showHints && (
-      <div
-        className="move-hint"
-        style={{
-          top: `${playerY * CELL_SIZE + CELL_SIZE / 2}px`,
-        }}
-      >
-        Use arrow keys to move
-      </div>
-    )}
+    {showHints && <div className="move-hint">Use arrow keys to move</div>}
   </div>
 );
