@@ -54,6 +54,15 @@ export const initialState: State = {
   ],
 };
 
+const getRandomPosition = (exclude: Array<{ x: number; y: number }>) => {
+  let x: number, y: number;
+  do {
+    x = Math.floor(gridWidth * Math.random());
+    y = Math.floor(gridHeight * Math.random());
+  } while (exclude.some((pos) => pos.x === x && pos.y === y));
+  return { x, y };
+};
+
 const collectGold = (
   state: State,
   character: Player | Enemy,
@@ -72,10 +81,7 @@ const collectGold = (
             itemIndex !== -1
               ? [
                   ...state.items.slice(0, itemIndex),
-                  {
-                    x: Math.floor(gridWidth * Math.random()),
-                    y: Math.floor(gridHeight * Math.random()),
-                  },
+                  getRandomPosition([state.player, character]),
                   ...state.items.slice(itemIndex + 1, state.items.length),
                 ]
               : state.items,
