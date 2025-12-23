@@ -2,6 +2,8 @@
 
 Collect all gold before the ogres do.
 
+[Demo](https://frycz.github.io/gold-fever/)
+
 ![Gold Fever Screenshot](images/image.png)
 
 ## Available Scripts
